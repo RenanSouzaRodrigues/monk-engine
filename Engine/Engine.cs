@@ -28,7 +28,7 @@ public class Engine {
         _gameEntities.ForEach(entity => entity.Init());
 
         var mainMenuBackground = Raylib.LoadTexture(Assets.GetTextureAssetPath("mainMenuBackground.png"));
-        Music music = Raylib.LoadMusicStream(Assets.GetSoundAssetPath("Song2.mp3"));
+        Music music = Raylib.LoadMusicStream(Assets.GetSoundAssetPath("Song1.mp3"));
         music.Looping = true;
         Raylib.PlayMusicStream(music);
 
@@ -46,7 +46,8 @@ public class Engine {
             
             Raylib.DrawText("Lightless", 730, 300, 100, Color.White);
 
-            // _gameEntities.ForEach(entity => entity.Draw());
+            
+            _gameEntities.ForEach(entity => entity.Draw());
 
 
             if (_debug) {
