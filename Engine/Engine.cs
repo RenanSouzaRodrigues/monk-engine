@@ -1,5 +1,7 @@
 using Raylib_cs;
 using MonkEngine.Entities;
+using System.Numerics;
+using MonkEngine.Utils;
 
 namespace MonkEngine;
 
@@ -20,28 +22,41 @@ public class Engine {
     public void EnableDebug() => _debug = true;
 
     public void StartEngine() {
-        Raylib.SetConfigFlags(ConfigFlags.Msaa4xHint);
         Raylib.InitWindow(1920, 1080, _gameName);
+        Raylib.InitAudioDevice();
 
         _gameEntities.ForEach(entity => entity.Init());
+
+        var mainMenuBackground = Raylib.LoadTexture(Assets.GetTextureAssetPath("mainMenuBackground.png"));
+        Music music = Raylib.LoadMusicStream(Assets.GetSoundAssetPath("Song2.mp3"));
+        music.Looping = true;
+        Raylib.PlayMusicStream(music);
 
         while (!Raylib.WindowShouldClose()) {
             _deltaTime = Raylib.GetFrameTime();
             _gameEntities.ForEach(entity => entity.Update(_deltaTime));
 
+            Raylib.UpdateMusicStream(music);
+
             Raylib.BeginDrawing();
             
             Raylib.ClearBackground(new Color(12, 19, 23, 255));
-            _gameEntities.ForEach(entity => entity.Draw());
+
+            Raylib.DrawTexture(mainMenuBackground, 0, 0, Color.White);
+            
+            Raylib.DrawText("Lightless", 730, 300, 100, Color.White);
+
+            // _gameEntities.ForEach(entity => entity.Draw());
+
 
             if (_debug) {
                 Raylib.DrawFPS(10, 10);
-                Raylib.DrawText("Current Monitor: " + Raylib.GetCurrentMonitor().ToString(), 10, 50, 20, Color.Red);
             }
 
             Raylib.EndDrawing();
         }
 
+        Raylib.CloseAudioDevice();
         Raylib.CloseWindow();
         _gameEntities.ForEach(entity => entity.Destroy());
     }
