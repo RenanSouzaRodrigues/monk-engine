@@ -1,43 +1,49 @@
-using Raylib_cs;
 using MonkEngine.Core;
 using MonkEngine.Scene;
+using Raylib_cs;
 
 namespace MonkEngine;
 
 public class Engine {
-    // Engine core handlers. -Renan
+    // Engine core handlers
     public static readonly AssetHandler Assets = new();
+    public static readonly WindowHandler Window = new();
     public static readonly AudioHandler Audio = new();
 
-    // I should be using a different struct to handle the scenes but for now, this is ok. -Renan
-    private readonly List<IScene> _gameScenes = [];
-
-    private readonly string _gameName;
+    // I should be using a different struct to handle the scenes but for now, this is ok
+    private readonly List<IScene> _gameScenes = new();
     private float _deltaTime = 0;
     private bool _debug = false;
 
-    public Engine(string gameName) => _gameName = gameName;
-    public void ToggleDebugMode() => _debug = !_debug;
-
     public void StartEngine() {
-        // this is a place holder for now. -Renan
-        Raylib.InitWindow(1920, 1080, _gameName);
+        Window.Create("Monk Engine");
 
         // Initialize the game scenes
         _gameScenes.ForEach(scene => scene.InitEntities());
 
-        while (!Raylib.WindowShouldClose()) {
+        while (!Window.QuitApplication()) {
             // Updated the game delta time every single tick
-            _deltaTime = Raylib.GetFrameTime();
+            _deltaTime = Window.GetDeltaTime();
             
-            _gameEntities.ForEach(entity => entity.Update(_deltaTime));
+            // Here goes all the logic calls
+            _gameScenes.ForEach(scenes => scenes.UpdateSceneEntities(_deltaTime));
+            
+            Window.BeginDraw();
+            
+            // Here goes all the draw calls
+            _gameScenes.ForEach(scenes => scenes.DrawSceneEntities());
 
+            if (_debug) {
+                Raylib.DrawFPS(10, 10);
+            }
 
-            Raylib.EndDrawing();
+            Window.EndDraw();
         }
 
-        Raylib.CloseAudioDevice();
-        Raylib.CloseWindow();
-        _gameEntities.ForEach(entity => entity.Destroy());
+        Audio.Destroy();
+        Window.Destroy();
+        _gameScenes.ForEach(scene => scene.DestroyEntities());
     }
+
+    public void ToggleDebugMode() => _debug = !_debug;
 }

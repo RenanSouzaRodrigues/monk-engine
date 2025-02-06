@@ -4,6 +4,7 @@ namespace MonkEngine.Scene;
 
 public interface IScene {
     void InitEntities();
-    void UpdateSceneEntities();
+    void UpdateSceneEntities(float deltaTime);
     void DrawSceneEntities();
+    void DestroyEntities();
 }

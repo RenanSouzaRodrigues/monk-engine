@@ -7,6 +7,10 @@ public class AudioHandler {
         Raylib.InitAudioDevice();
     }
 
+    public void Destroy() {
+        Raylib.CloseAudioDevice();
+    }
+
     public void PlayMusic(Music musicInstance) {
         Raylib.PlayMusicStream(musicInstance);
     }
