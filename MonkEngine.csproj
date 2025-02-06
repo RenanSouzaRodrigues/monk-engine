@@ -11,4 +11,10 @@
     <PackageReference Include="Raylib-cs" Version="7.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Game\Components\" />
+    <Folder Include="Game\Entities\" />
+    <Folder Include="Game\Scenes\" />
+  </ItemGroup>
+
 </Project>

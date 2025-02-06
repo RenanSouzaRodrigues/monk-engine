@@ -1,9 +1,9 @@
 using MonkEngine.Core;
 using Raylib_cs;
 
-namespace MonkEngine.Components;
+namespace MonkEngine.ECS.NativeComponents;
 
-public class MusicPlayerComponent {
+public class MusicPlayerComponent : IComponent {
     private Music _music;
 
     public void SetMusicAsset(string musicAssetName) {

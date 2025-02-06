@@ -14,7 +14,7 @@ public class Engine {
     private readonly List<IScene> _gameScenes = new();
     private float _deltaTime = 0;
     private bool _debug = false;
-
+    
     public void StartEngine() {
         Window.Create("Monk Engine");
 
@@ -46,4 +46,5 @@ public class Engine {
     }
 
     public void ToggleDebugMode() => _debug = !_debug;
+    public void AddGameScene(IScene gameScene) => _gameScenes.Add(gameScene);
 }
