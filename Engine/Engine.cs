@@ -1,58 +1,37 @@
 using Raylib_cs;
-using MonkEngine.Entities;
-using System.Numerics;
-using MonkEngine.Utils;
+using MonkEngine.Core;
+using MonkEngine.Scene;
 
 namespace MonkEngine;
 
 public class Engine {
+    // Engine core handlers. -Renan
+    public static readonly AssetHandler Assets = new();
+    public static readonly AudioHandler Audio = new();
+
+    // I should be using a different struct to handle the scenes but for now, this is ok. -Renan
+    private readonly List<IScene> _gameScenes = [];
+
     private readonly string _gameName;
-    private readonly List<IEntity> _gameEntities = [];
-    private float _deltaTime;
+    private float _deltaTime = 0;
     private bool _debug = false;
 
-    public Engine(string gameName = "Monk Engine") {
-        _gameName = gameName;
-    }
-
-    public void AddNewGameEntity(IEntity newEntity) {
-        _gameEntities.Add(newEntity);
-    }
-
-    public void EnableDebug() => _debug = true;
+    public Engine(string gameName) => _gameName = gameName;
+    public void ToggleDebugMode() => _debug = !_debug;
 
     public void StartEngine() {
+        // this is a place holder for now. -Renan
         Raylib.InitWindow(1920, 1080, _gameName);
-        Raylib.InitAudioDevice();
 
-        _gameEntities.ForEach(entity => entity.Init());
-
-        var mainMenuBackground = Raylib.LoadTexture(Assets.GetTextureAssetPath("mainMenuBackground.png"));
-        Music music = Raylib.LoadMusicStream(Assets.GetSoundAssetPath("Song1.mp3"));
-        music.Looping = true;
-        Raylib.PlayMusicStream(music);
+        // Initialize the game scenes
+        _gameScenes.ForEach(scene => scene.InitEntities());
 
         while (!Raylib.WindowShouldClose()) {
+            // Updated the game delta time every single tick
             _deltaTime = Raylib.GetFrameTime();
+            
             _gameEntities.ForEach(entity => entity.Update(_deltaTime));
 
-            Raylib.UpdateMusicStream(music);
-
-            Raylib.BeginDrawing();
-            
-            Raylib.ClearBackground(new Color(12, 19, 23, 255));
-
-            Raylib.DrawTexture(mainMenuBackground, 0, 0, Color.White);
-            
-            Raylib.DrawText("Lightless", 730, 300, 100, Color.White);
-
-            
-            _gameEntities.ForEach(entity => entity.Draw());
-
-
-            if (_debug) {
-                Raylib.DrawFPS(10, 10);
-            }
 
             Raylib.EndDrawing();
         }
