@@ -1,5 +1,17 @@
-namespace MonkEngine.Components;
+using MonkEngine.Core;
+using MonkEngine.ECS;
+using Raylib_cs;
 
-public class SpriteRenderer {
+namespace MonkEngine.ECS.NativeComponents;
+
+public class SpriteRendererComponent : IComponent {
+    public Texture2D _spriteTexture; 
     
+    public SpriteRendererComponent() {
+        _spriteTexture = Engine.Assets.LoadSprite("Textures", "rogues.png");
+    }
+
+    public void DrawSprite() {
+        
+    }
 }

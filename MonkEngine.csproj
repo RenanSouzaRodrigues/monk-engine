@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="Game\Components\" />
-    <Folder Include="Game\Entities\" />
     <Folder Include="Game\Scenes\" />
   </ItemGroup>
 

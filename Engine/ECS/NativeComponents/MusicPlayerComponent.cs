@@ -6,8 +6,8 @@ namespace MonkEngine.ECS.NativeComponents;
 public class MusicPlayerComponent : IComponent {
     private Music _music;
 
-    public void SetMusicAsset(string musicAssetName) {
-        _music = Engine.Assets.GetMusicAsset(musicAssetName);
+    public void SetMusicAsset(string folder, string fileName) {
+        _music = Engine.Assets.LoadMusic(folder, fileName);
     }
 
     public void Play() {

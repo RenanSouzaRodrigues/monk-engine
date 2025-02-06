@@ -9,6 +9,7 @@ public class Engine {
     public static readonly AssetHandler Assets = new();
     public static readonly WindowHandler Window = new();
     public static readonly AudioHandler Audio = new();
+    public static readonly DebugHandler Debugger = new();
 
     // I should be using a different struct to handle the scenes but for now, this is ok
     private readonly List<IScene> _gameScenes = new();
@@ -34,7 +35,7 @@ public class Engine {
             _gameScenes.ForEach(scenes => scenes.DrawSceneEntities());
 
             if (_debug) {
-                Raylib.DrawFPS(10, 10);
+                Debugger.ShowFPS();
             }
 
             Window.EndDraw();
