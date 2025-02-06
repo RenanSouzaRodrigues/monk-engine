@@ -1,6 +1,5 @@
 using MonkEngine.Core;
 using MonkEngine.Scene;
-using Raylib_cs;
 
 namespace MonkEngine;
 
